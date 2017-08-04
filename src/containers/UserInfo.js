@@ -1,0 +1,46 @@
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+
+class UserInfo extends Component {
+    render() {
+        let content;
+        if (!this.props.loggedIn) {
+            content = <p>Please log in or register.</p>
+        } else {
+            content = (
+                <dl>
+                    <dt>Full Name</dt>
+                    <dd>{this.props.user.full_name}</dd>
+                    <dt>Email</dt>
+                    <dd>{this.props.user.email}</dd>
+                    <dt>Message</dt>
+                    <dd>{this.props.user.message}</dd>
+                </dl>
+            );
+        }
+
+        let error = this.props.error;
+        if (error) {
+          if (Array.isArray(this.props.error)) {
+            error = this.props.error.map(error => <div>{error}</div>)
+          }
+          error = <div className="alert">{error}</div>
+        }
+        return (
+            <div className="UserInfo">
+              {error}
+              {content}
+            </div>
+        )
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        loggedIn: !!state.token,
+        user: state.user,
+        error: state.error
+    }
+}
+
+export default connect(mapStateToProps)(UserInfo);

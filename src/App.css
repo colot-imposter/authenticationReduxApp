@@ -1,0 +1,14 @@
+.App {
+  margin: 0 auto;
+  padding: 2em 1em;
+  max-width: 50em;
+}
+
+.grid-50-50 {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-column-gap: 10px;
+}
+
+.Login {
+}
