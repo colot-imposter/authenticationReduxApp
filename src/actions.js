@@ -1,4 +1,5 @@
 import request from "superagent";
+import Cookies from 'js-cookie';
 
 export const SET_TOKEN = 'SET_TOKEN';
 export const SET_USER = 'SET_USER';
@@ -45,6 +46,16 @@ export const register = ({
     }
 }
 
+export const loadTokenFromCookie = () => {
+    return (dispatch) => {
+        const token = Cookies.get('token');
+        if (token) {
+            dispatch(setToken(token));
+            dispatch(getDashboard());
+        }
+    }
+}
+
 export const login = (email, password, callback) => {
     return (dispatch, getState) => {
         dispatch(incrLoading(1));
@@ -60,7 +71,8 @@ export const login = (email, password, callback) => {
                 }
 
                 dispatch(setToken(res.body['auth_token']));
-                dispatch(getDashboard(res.body['auth_token']));
+                dispatch(getDashboard());
+                Cookies.set('token', res.body['auth_token'], {expires: 7});
 
                 if (callback) {
                     callback();
@@ -71,10 +83,15 @@ export const login = (email, password, callback) => {
 
 const getDashboard = (token) => {
     return (dispatch, getState) => {
+        token = token || getState().token;
+
+        if (!token) {
+            return;
+        }
         dispatch(incrLoading(1));
         request
             .get(api("/dashboard"))
-            .set('X-AUTH-TOKEN', getState()['token'])
+            .set('X-AUTH-TOKEN', token)
             .end((err, res) => {
                 if (err) {
                     return

@@ -4,7 +4,7 @@ import update from 'immutability-helper';
 
 const initialState = {
     token: null,
-    user: {},
+    user: null,
     loading: 0,
     error: null
 }
@@ -17,7 +17,7 @@ const reducer = (state = initialState, action) => {
                     $apply: (x) => x + action.payload
                 }
             })
-        case SET_ERROR:            
+        case SET_ERROR:
             return update(state, {
                 error: {
                     $set: action.payload

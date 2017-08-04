@@ -3,10 +3,10 @@ import {connect} from 'react-redux';
 
 class UserInfo extends Component {
     render() {
-        let content;
+        let content = null;
         if (!this.props.loggedIn) {
             content = <p>Please log in or register.</p>
-        } else {
+        } else if (this.props.user) {
             content = (
                 <dl>
                     <dt>Full Name</dt>
