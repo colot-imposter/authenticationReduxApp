@@ -32,8 +32,7 @@ ReactDOM.render(
             <Route path="/home" component={UserInfo} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            {/* <Route path="/login" component={login} />
-            <Route path="/logout" component={LogOut} /> */}
+            <Route path="/logout" component={LogOut} />
           </Switch>
         </div>
       </BaseLayout>
